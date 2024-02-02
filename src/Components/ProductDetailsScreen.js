@@ -8,10 +8,10 @@ import {
   ScrollView,
   Dimensions
 } from 'react-native';
-import axios from 'axios';
 import StarRatingComponent from './StarRating';
 import Swiper from 'react-native-swiper';
 import DiscountedPrice from '../Common/DiscountedPrice';
+import { fetchProductSpecificDetails } from '../Api/Api';
 const width = Dimensions.get('screen').width
 const height= Dimensions.get('screen').height
 
@@ -24,9 +24,7 @@ const ProductDetailsScreen = ({route}) => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(
-          `https://dummyjson.com/products/${productId}`,
-        );
+        const response = await fetchProductSpecificDetails(productId)
         setProductDetails(response.data);
       } catch (error) {
         console.error('Error fetching product details:', error);
@@ -193,7 +191,6 @@ const styles = StyleSheet.create({
   stock: {
     fontSize: 16,
     color: '#fff',
-    // marginBottom: 10,
   },
   discount: {
     fontSize: 16,

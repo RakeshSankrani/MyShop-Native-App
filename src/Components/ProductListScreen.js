@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, FlatList, TouchableOpacity, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import StarRating from './StarRating';
 import DiscountedPrice from '../Common/DiscountedPrice';
+import { fetchProductList } from '../Api/Api';
+import axios from 'axios';
 
 const ProductListScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -10,23 +12,19 @@ const ProductListScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://dummyjson.com/products');
-        const data = await response.json();
-        setProducts(data.products);
+        const response = await fetchProductList();
+        setProducts(response.data.products);
       } catch (error) {
         console.error(error);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchProducts();
+  
+    fetchProducts(); 
+  
   }, []);
 
-  // const calculatePrice = (price, discount) => {
-  //   let newPrice = price - (price * (Math.round(discount) / 100))
-  //   return Math.round(newPrice)
-  // }
   return (
     <View style={styles.container}>
       {loading ? (
@@ -92,7 +90,6 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flexDirection: 'row', 
-    // alignItems: 'center', 
   },
   image: {
     height: 150,

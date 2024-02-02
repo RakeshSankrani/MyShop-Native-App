@@ -44,4 +44,3 @@ const AppNavigator = () => {
 };
 
 export default AppNavigator;
-// { title: 'Product List', headerShown:false }
